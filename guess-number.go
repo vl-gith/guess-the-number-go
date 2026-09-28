@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"math/rand"
 	"os"
 	"strconv"
@@ -13,20 +14,36 @@ func main() {
 
 	target := rand.Intn(100) + 1
 	fmt.Println("Выбрано число от 1 до 100")
-	fmt.Println("Это число: ", target)
 
-	count, n := 10, 10
+	count := 10
+	playerWon := false
 
-	for i := 0; i < n; i++ {
-		reader := bufio.NewReader(os.Stdin)
-		fmt.Print("Введите число: ")
-		input, _ := reader.ReadString('\n')
+	reader := bufio.NewReader(os.Stdin)
+
+	for count > 0 {
+
+		fmt.Print("Введите число от 1 до 100: ")
+		input, err := reader.ReadString('\n')
+
+		if err != nil {
+			log.Fatal("Ошибка ввода: ", err)
+		}
+
 		input = strings.TrimSpace(input)
 
-		guess, _ := strconv.Atoi(input)
+		guess, err := strconv.Atoi(input)
+
+		if err != nil {
+			fmt.Println("Ошибка! Введенное значение не является целым числом! Введите целое число!")
+			continue
+		}
+
+		if guess < 1 || guess > 100 {
+			continue
+		}
 
 		if guess == target {
-			fmt.Println("Поздравляем, вы угадали число!")
+			playerWon = true
 			break
 		} else {
 			count--
@@ -39,7 +56,7 @@ func main() {
 		}
 	}
 
-	if count == 0 {
+	if !playerWon {
 		fmt.Println("К сожалению, Вы проиграли!")
 	} else {
 		fmt.Println("Поздравляем, Вы выиграли!")
