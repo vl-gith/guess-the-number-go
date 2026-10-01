@@ -51,6 +51,8 @@ func main() {
 		fmt.Println("Вам доступно", count, "попыток")
 	}
 
+	countInit := count
+
 	for count > 0 {
 
 		fmt.Print("Введите число от 1 до 100: ")
@@ -74,11 +76,12 @@ func main() {
 			continue
 		}
 
+		count--
+
 		if guess == target {
 			playerWon = true
 			break
 		} else {
-			count--
 			fmt.Println("К сожалению, вы не угадали число, попробуйте еще раз!", "У вас осталось", count, "попыток")
 			if guess < target {
 				fmt.Println("Введенное Вами число является МЕНЬШЕ, чем загаданное")
@@ -95,6 +98,10 @@ func main() {
 	}
 
 	fmt.Println("Загаданное число:", target)
+
+	playerScore := calcResult(count, countInit, level, playerWon)
+
+	fmt.Printf("Ваш результат: %0.3f", playerScore)
 }
 
 /*Функция выбора сложности игры, возвращает количество попыток, выбранный уровень и статус ошибки*/
@@ -110,4 +117,26 @@ func chooseDifficultyLevel(chooseLvl int) (int, string, error) {
 	} else {
 		return 0, "", fmt.Errorf("Ошибка выбора уровня, уровня %d не существует!", chooseLvl)
 	}
+}
+
+/*Функция расчета результата игрока, в зависимости от уровня сложности и использованных попыток, возвращает число с плавающей точкой*/
+/*При заданном уровне сложности задается максимальный результат*/
+func calcResult(count int, countInit int, level int, playerWon bool) float64 {
+
+	if !playerWon {
+		return 0.0
+	}
+
+	attemptsUsed := countInit - count
+	var maxScore float64
+
+	if level == 1 {
+		maxScore = 1800
+	} else if level == 2 {
+		maxScore = 3000
+	} else if level == 3 {
+		maxScore = 7000
+	}
+
+	return maxScore / float64(attemptsUsed)
 }

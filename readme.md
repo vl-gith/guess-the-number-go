@@ -8,7 +8,9 @@ The program generates a random number between 1 and 100. The player chooses a di
 
 After each incorrect guess, the game provides a hint indicating whether the target number is higher or lower.
 
-At the end of the game, the program reveals the target number.
+The game also calculates the player's score based on the selected difficulty and the number of attempts used.
+
+At the end of the game, the program reveals the target number and displays the final score.
 
 ## Features
 
@@ -17,16 +19,48 @@ At the end of the game, the program reveals the target number.
 * Different number of attempts depending on difficulty
 * Higher/lower hints after each incorrect guess
 * Input validation
+* Score calculation based on difficulty and attempts used
+* Higher score for fewer attempts
 * Target number revealed at the end of the game
 * Command-line interface
 
 ## Difficulty Levels
 
-| Level  | Attempts |
-| ------ | -------: |
-| Easy   |       10 |
-| Medium |        5 |
-| Hard   |        3 |
+| Level  | Attempts | Maximum Score |
+| ------ | -------: | ------------: |
+| Easy   |       10 |          1800 |
+| Medium |        5 |          3000 |
+| Hard   |        3 |          7000 |
+
+## Scoring
+
+The player's score depends on the selected difficulty and the number of attempts used.
+
+The maximum score is determined by the difficulty level:
+
+```text
+Easy   → 1800 points
+Medium → 3000 points
+Hard   → 7000 points
+```
+
+The final score is calculated using the following formula:
+
+```text
+Score = Maximum Score / Attempts Used
+```
+
+For example, on the Easy difficulty:
+
+```text
+1 attempt  → 1800 points
+2 attempts →  900 points
+4 attempts →  450 points
+```
+
+If the player fails to guess the target number, the final score is `0`.
+
+The scoring system rewards players for solving the game using as few attempts as possible.
 
 ## Requirements
 
@@ -59,6 +93,7 @@ go run guess-number.go
 4. Follow the hints after each incorrect guess.
 5. Try to guess the target number before you run out of attempts.
 6. The target number is revealed when the game ends.
+7. If you win, your final score is displayed.
 
 ## Strategy
 
@@ -82,6 +117,8 @@ ceil(log₂(100)) = 7 guesses
 ```
 
 The Easy difficulty provides 10 attempts, giving the player a margin for error. The Medium and Hard difficulties require a more efficient strategy.
+
+Using fewer attempts also results in a higher score.
 
 ## Technologies
 
