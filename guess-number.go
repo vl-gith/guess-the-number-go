@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"unicode"
 )
 
 func main() {
@@ -16,12 +17,28 @@ func main() {
 
 	playerWon := false
 	levelChosen := false
+	userNameChosen := false
 
 	var count int
 	var level int
 	var strLvl string
+	var userName string
 
 	reader := bufio.NewReader(os.Stdin)
+
+	for !userNameChosen {
+		fmt.Print("Введите свое имя: ")
+		result, err := getUserName(reader)
+
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
+		userName = result
+		userNameChosen = true
+	}
+
+	fmt.Println("Здравствуйте,", userName)
 
 	for !levelChosen {
 		fmt.Print("Введите желаемый уровень сложности, где: 1-легкий, 2-средний, 3-сложный: ")
@@ -139,4 +156,28 @@ func calcResult(count int, countInit int, level int, playerWon bool) float64 {
 	}
 
 	return maxScore / float64(attemptsUsed)
+}
+
+/*Функция запрашивает у пользователя имя и возвращает значение и статус ошибки*/
+func getUserName(reader *bufio.Reader) (string, error) {
+
+	userName, err := reader.ReadString('\n')
+
+	if err != nil {
+		return "", fmt.Errorf("Ошибка ввода: %w", err)
+	}
+
+	name := strings.TrimSpace(userName)
+
+	if name == "" {
+		return "", fmt.Errorf("Ошибка, введите имя!")
+	}
+
+	for _, ch := range name {
+		if !unicode.IsLetter(ch) {
+			return "", fmt.Errorf("Ошибка, в имени могут быть только буквы!")
+		}
+	}
+
+	return name, nil
 }

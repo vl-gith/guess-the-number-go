@@ -4,7 +4,9 @@ A simple command-line number guessing game written in Go.
 
 ## About
 
-The program generates a random number between 1 and 100. The player chooses a difficulty level that determines the number of available attempts.
+The program generates a random number between 1 and 100. Before starting the game, the player enters their name and chooses a difficulty level that determines the number of available attempts.
+
+The player's name is validated to ensure that it contains only letters.
 
 After each incorrect guess, the game provides a hint indicating whether the target number is higher or lower.
 
@@ -14,6 +16,8 @@ At the end of the game, the program reveals the target number and displays the f
 
 ## Features
 
+* Player name input and validation
+* Support for names containing letters from different alphabets
 * Random number generation
 * Three difficulty levels
 * Different number of attempts depending on difficulty
@@ -84,16 +88,19 @@ go run guess-number.go
 ## How to Play
 
 1. Run the program.
-2. Choose a difficulty level:
+2. Enter your name.
+
+   * The name must contain letters only.
+3. Choose a difficulty level:
 
    * `1` — Easy
    * `2` — Medium
    * `3` — Hard
-3. Enter a number between 1 and 100.
-4. Follow the hints after each incorrect guess.
-5. Try to guess the target number before you run out of attempts.
-6. The target number is revealed when the game ends.
-7. If you win, your final score is displayed.
+4. Enter a number between 1 and 100.
+5. Follow the hints after each incorrect guess.
+6. Try to guess the target number before you run out of attempts.
+7. The target number is revealed when the game ends.
+8. If you win, your final score is displayed.
 
 ## Strategy
 
@@ -123,4 +130,4 @@ Using fewer attempts also results in a higher score.
 ## Technologies
 
 * Go
-* Standard Library (`fmt`, `math/rand`, `bufio`, `os`, `strconv`, `strings`)
+* Standard Library (`fmt`, `math/rand`, `bufio`, `os`, `strconv`, `strings`, `unicode`)
